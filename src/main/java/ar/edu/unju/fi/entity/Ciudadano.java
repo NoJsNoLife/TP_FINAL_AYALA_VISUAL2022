@@ -13,9 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Entity
 @PrimaryKeyJoinColumn(name="usu_codigo")
 @Component
-public class Ciudadano extends Usuario implements Serializable{
+public class Ciudadano implements Serializable{
 
 	/**
 	 * 
@@ -32,10 +32,10 @@ public class Ciudadano extends Usuario implements Serializable{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "ciu_codigo")
 	private int codigo;
 	@Column(name = "nroTramite")
-	@Size(min=4, max=100, message = "Debe tener un minimo de 4 cifras o un maximo de 100")
-	private String nroT;
+	@Min(value=1, message = "Debe ser minimo 1")
+	@Max(value=999999, message = "Debe ser maximo 999.999")
+	private int nroT;
 	@Column(name = "estado")
-	@NotBlank(message = "No puede estar vacio")
 	private String estado;
 	@Column(name = "nacimiento")
 	@DateTimeFormat(pattern = "yyyy-MM-dd") @Past(message = "La fecha no es correcta")
@@ -46,20 +46,19 @@ public class Ciudadano extends Usuario implements Serializable{
 	@PrimaryKeyJoinColumn
 	private Cv cv;
 	
-	//-----CIUDADANO A USUARIO----- IMPLICA QUE UN SOLO USUARIO SOLO PUEDE PERTENECER A UN SOLO TIPO CIUDADANO
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
-	private Usuario usuario;
+	
 	
 	//-----CIUDADANO A OFERTAS----- IMPLICA QUE UN SOLO USUARIO SOLO PUEDE TENER VARIAS OFERTAS A LAS QUE SE POSTULE GUARDADAS EN UNA LISTA
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Oferta> ofertas;
 	
+	public Ciudadano() {
+	}
 	
-	public String getNroT() {
+	public int getNroT() {
 		return nroT;
 	}
-	public void setNroT(String nroT) {
+	public void setNroT(int nroT) {
 		this.nroT = nroT;
 	}
 	public String getEstado() {
@@ -68,6 +67,7 @@ public class Ciudadano extends Usuario implements Serializable{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	
 	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
@@ -80,17 +80,17 @@ public class Ciudadano extends Usuario implements Serializable{
 	public void setCv(Cv cv) {
 		this.cv = cv;
 	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 	public List<Oferta> getOfertas() {
 		return ofertas;
 	}
 	public void setOfertas(List<Oferta> ofertas) {
 		this.ofertas = ofertas;
+	}
+	public int getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 	
 	

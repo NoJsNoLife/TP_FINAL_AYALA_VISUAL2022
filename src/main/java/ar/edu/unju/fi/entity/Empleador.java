@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Entity
 @PrimaryKeyJoinColumn(name="usu_codigo")
 @Component
-public class Empleador extends Usuario implements Serializable{
+public class Empleador implements Serializable{
 
 	/**
 	 * 
@@ -32,35 +31,34 @@ public class Empleador extends Usuario implements Serializable{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "emp_codigo")
 	private int codigo;
 	@Column(name = "cuit")
-	@Size(min=10, max=10, message = "Debe tener 10 cifras sin guiones")
+	//@Size(min=10, max=10, message = "Debe tener 10 cifras sin guiones")
 	private String cuit;
 	@Column(name = "razon")
-	@NotBlank(message = "No puede estar vacio")
+	//@NotBlank(message = "No puede estar vacio")
 	private String razon;
 	@Column(name = "nombre")
-	@NotBlank(message = "No puede estar vacio")
+	//@NotBlank(message = "No puede estar vacio")
 	private String nombre;
 	@Column(name = "inicio")
-	@DateTimeFormat(pattern = "yyyy-MM-dd") @PastOrPresent(message = "La fecha no es correcta")
+	@DateTimeFormat(pattern = "yyyy-MM-dd") //@PastOrPresent(message = "La fecha no es correcta")
 	private LocalDate fechaInicio;
 	@Column(name = "domicilio")
-	@NotBlank(message = "No puede estar vacio")
+	//@NotBlank(message = "No puede estar vacio")
 	private String domicilio;
 	@Column(name = "pagina")
 	private String pagina;
 	@Column(name = "descripcion")
-	@NotBlank(message = "No puede estar vacio")
+	//@NotBlank(message = "No puede estar vacio")
 	private String descripcion;
 	
-	//-----EMPLEADOR A USUARIO----- IMPLICA QUE UN SOLO USUARIO SOLO PUEDE PERTENECER A UN SOLO TIPO EMPLEADOR
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
-	private Usuario usuario;
+	
 	
 	//-----EMPLEADOR A OFERTA----- IMPLICA QUE EL TIPO EMPLEADOR PUEDE PUBLICAR UNA O MAS OFERTAS Y GUARDARLAS EN UNA LISTA
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Oferta> ofertas;
 	
+	public Empleador() {
+	}
 	public String getCuit() {
 		return cuit;
 	}
@@ -102,12 +100,6 @@ public class Empleador extends Usuario implements Serializable{
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 	public List<Oferta> getOfertas() {
 		return ofertas;
