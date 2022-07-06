@@ -11,7 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
@@ -20,7 +20,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Entity
-@PrimaryKeyJoinColumn(name="usu_codigo")
 @Component
 public class Empleador implements Serializable{
 
@@ -31,25 +30,34 @@ public class Empleador implements Serializable{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "emp_codigo")
 	private int codigo;
 	@Column(name = "cuit")
-	//@Size(min=10, max=10, message = "Debe tener 10 cifras sin guiones")
-	private String cuit;
+	private long cuit;
+	@Column(name = "email")
+	@Email(message = "Ingrese un email valido") @NotBlank(message = "Ingrese un email valido")
+	private String email;
+	@Column(name = "contrasenia")
+	@NotBlank(message = "Ingrese una contraseña valida") @Size(min=8, max=12, message="Debe tener un minimo de 8 caracteres o un maximo de 12")
+	private String contrasenia;
+	@Column(name = "provincia")
+	private	String provincia;
+	@Column(name = "estado")
+	private boolean estado = true;
 	@Column(name = "razon")
-	//@NotBlank(message = "No puede estar vacio")
+	@NotBlank(message = "No puede estar vacio")
 	private String razon;
 	@Column(name = "nombre")
-	//@NotBlank(message = "No puede estar vacio")
+	@NotBlank(message = "No puede estar vacio")
 	private String nombre;
 	@Column(name = "inicio")
-	@DateTimeFormat(pattern = "yyyy-MM-dd") //@PastOrPresent(message = "La fecha no es correcta")
+	@DateTimeFormat(pattern = "yyyy-MM-dd") @PastOrPresent(message = "La fecha no es correcta")
 	private LocalDate fechaInicio;
 	@Column(name = "domicilio")
-	//@NotBlank(message = "No puede estar vacio")
 	private String domicilio;
 	@Column(name = "pagina")
 	private String pagina;
 	@Column(name = "descripcion")
-	//@NotBlank(message = "No puede estar vacio")
 	private String descripcion;
+	@Column(name = "telefono")
+	private String telefono;
 	
 	
 	
@@ -59,10 +67,10 @@ public class Empleador implements Serializable{
 	
 	public Empleador() {
 	}
-	public String getCuit() {
+	public long getCuit() {
 		return cuit;
 	}
-	public void setCuit(String cuit) {
+	public void setCuit(long cuit) {
 		this.cuit = cuit;
 	}
 	public String getRazon() {
@@ -106,6 +114,42 @@ public class Empleador implements Serializable{
 	}
 	public void setOfertas(List<Oferta> ofertas) {
 		this.ofertas = ofertas;
+	}
+	public int getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getContrasenia() {
+		return contrasenia;
+	}
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+	public String getProvincia() {
+		return provincia;
+	}
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+	public boolean isEstado() {
+		return estado;
+	}
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+	public String getTelefono() {
+		return telefono;
+	}
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 	
 	

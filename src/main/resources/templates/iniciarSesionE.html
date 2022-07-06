@@ -10,13 +10,12 @@
 		<div class="container col-4">
 			<br><br><br><br><br><br>
 			<h2>Iniciar Sesión</h2><br>
-			<form th:action="@{/usuario/login}" method="post" th:object="${usuario}">
-				<input type="hidden" name="_method" value="put" />
+			<form th:action="@{/empleador/login}" method="post" th:object="${empleador}">
 			  
 			  <div class="mb-3 row">
-			    <label for="idEmail" class="col-form-label">Email</label>
-			    <input th:field="*{email}" type="email" class="form-control" id="idEmail">	
-			    <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>	    
+			    <label for="idCuit" class="col-form-label">CUIT</label>
+			    <input th:field="*{cuit}" type="number" class="form-control" id="idCuit" min="20000000000" max="99999999999">	
+			    <div class="text-danger" th:if="${#fields.hasErrors('cuit')}" th:errors="*{cuit}"></div>	    
 			  </div>
 			  
 			  <div class="mb-3 row">
@@ -27,7 +26,7 @@
 			  
 			  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 					<button th:href="@{/}" class="btn btn-primary me-md-2" type="submit">Aceptar</button>
-					<a th:href="@{/usuario/nuevo}" id="cancel" class="btn btn-info" type="button">Registrarse</a>	
+					<a th:href="@{/empleador/nuevo}" id="cancel" class="btn btn-info" type="button">Registrarse</a>	
 					<a th:href="@{/}" id="cancel" class="btn btn-secondary" type="button">Cancelar</a>	  				
 			  </div>
 			</form>

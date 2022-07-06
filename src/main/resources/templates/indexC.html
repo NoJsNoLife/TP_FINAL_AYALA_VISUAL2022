@@ -10,12 +10,9 @@
 <body>
 	<div class="container">
 		<header th:replace="/layouts/header::header"></header>
-		<nav th:replace="/Layouts/navbar::navbar"></nav>
-	  	<section id="index">
+		<nav th:replace="/Layouts/navbarC::navbarC"></nav>
+	  	<section id="indexC">
 			<h2>Ofertas Disponibles</h2>
-			<br><br><br><br><br><br>
-			<p>Inicia sesión para ver las ofertas disponibles <a th:href="@{/empleador/login}">Empleador</a> / <a th:href="@{/ciudadano/login}">Ciudadano</a></p>
-			<br><br><br><br><br><br>
 		</section>
 		<footer th:replace="/layouts/footer::footer"></footer>
 	</div>

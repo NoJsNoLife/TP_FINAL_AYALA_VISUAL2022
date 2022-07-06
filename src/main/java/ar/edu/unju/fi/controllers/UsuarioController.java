@@ -1,4 +1,4 @@
-package ar.edu.unju.fi.controllers;
+/*package ar.edu.unju.fi.controllers;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,43 +23,23 @@ import ar.edu.unju.fi.services.IUsuarioService;
 @RequestMapping("/usuario")
 public class UsuarioController {
 	
-	@Autowired
-	private IUsuarioService usuarioSer;
+	/*@Autowired
+	private IEmpleadorService empleadorSer;
 	
 	
 	private static final Log LOGGER = LogFactory.getLog(UsuarioController.class);
 	
-	@GetMapping("/nuevo")
-	public String getNuevoUsuario(Model model) {
-		model.addAttribute("usuario", usuarioSer.getUsuario());
-		return "nuevoUsuario";
-	}
 	
-	@GetMapping("/perfil")
-	public ModelAndView getPerfil(Model model) {
-		Usuario u = usuarioSer.findByEstado(true);
-		if(u!=null) {
-			if(u.getTipo().equals("Empleador")) {
-				ModelAndView mav = new ModelAndView("perfilEmpleador");
-				mav.addObject("empleador", u.getEmpleador());
-				LOGGER.info("Se ha accedido al perfil del empleador con Email: "+u.getEmail());
-				return mav;
-			}
-			if(u.getTipo().equals("Ciudadano")) {
-				ModelAndView mav = new ModelAndView("perfilCiudadano");
-				mav.addObject("ciudadano", u.getCiudadano());
-				LOGGER.info("Se ha accedido al perfil del ciudadano con Email: "+u.getEmail());
-				return mav;
-			}	
-		}
-		ModelAndView mav = new ModelAndView("redirect:/usuario/login");
-		LOGGER.info("Redirigido a Iniciar Sesion...");
+	@GetMapping("/loginE")
+	public ModelAndView getLoginEmpleador(Usuario usuario) {
+		ModelAndView mav = new ModelAndView("iniciarSesionE");
+		mav.addObject("usuario", usuario);
 		return mav;
 	}
 	
-	@GetMapping("/login")
-	public ModelAndView getLoginPage(Usuario usuario) {
-		ModelAndView mav = new ModelAndView("iniciarSesion");
+	@GetMapping("/loginC")
+	public ModelAndView getLoginCiudadano(Usuario usuario) {
+		ModelAndView mav = new ModelAndView("iniciarSesionC");
 		mav.addObject("usuario", usuario);
 		return mav;
 	}
@@ -91,7 +71,7 @@ public class UsuarioController {
 		return mav;
 	}*/
 	
-	@PostMapping("/nuevo")
+	/*@PostMapping("/nuevo")
 	public ModelAndView getNextPage(@Validated @ModelAttribute("usuario")Usuario usuario, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			LOGGER.info("No se cumplen las reglas de validacion");
@@ -116,8 +96,8 @@ public class UsuarioController {
 		return mav;
 	}
 	
-	@PostMapping("/login")
-	public ModelAndView putSesionIn(@Validated @ModelAttribute("usuario")Usuario usuario, BindingResult bindingResult) {
+	@PostMapping("/loginE")
+	public ModelAndView putSesionEIn(@Validated @ModelAttribute("usuario")Usuario usuario, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			LOGGER.info("No se cumplen las reglas de validacion");
 			ModelAndView mav = new ModelAndView("iniciarSesion");
@@ -137,4 +117,25 @@ public class UsuarioController {
 		return mav;
 	}
 	
-}
+	@PostMapping("/loginC")
+	public ModelAndView putSesionCIn(@Validated @ModelAttribute("usuario")Usuario usuario, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			LOGGER.info("No se cumplen las reglas de validacion");
+			ModelAndView mav = new ModelAndView("iniciarSesion");
+			mav.addObject("usuario", usuario);
+			return mav;
+		}
+		if(usuarioSer.findByEmailAndContrasenia(usuario.getEmail(), usuario.getContrasenia()) != null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexL");
+			mav.addObject("usuario", usuario);
+			usuario.setEstado(true);
+			usuarioSer.modifyUsuario(usuario);
+			LOGGER.info("Se ha iniciado sesion para el email: "+usuario.getEmail());
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("iniciarSesion");
+		LOGGER.info("Error al iniciar sesion para el email: "+usuario.getEmail());
+		return mav;
+	}*/
+	/*
+}*/

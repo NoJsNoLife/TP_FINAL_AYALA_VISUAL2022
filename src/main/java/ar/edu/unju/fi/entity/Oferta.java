@@ -52,6 +52,14 @@ public class Oferta implements Serializable{
 	@NotBlank(message = "No puede estar vacio")
 	private String beneficios;
 	private boolean disponible = (vacantes > 0);
+	//private List<Ciudadano> aceptados;
+	
+	/*//-----CIUDADANO A OFERTAS----- IMPLICA QUE UNA OFERTA PUEDE TENER VARIOS CIUDADANOS POSTULADOS
+		@ManyToMany(fetch = FetchType.LAZY)
+		private List<Ciudadano> postulantes;*/
+	
+	public Oferta() {
+	}
 	public int getVacantes() {
 		return vacantes;
 	}
@@ -112,6 +120,24 @@ public class Oferta implements Serializable{
 	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
 	}
+	public int getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	/*public List<Ciudadano> getAceptados() {
+		return aceptados;
+	}
+	public void setAceptados(List<Ciudadano> aceptados) {
+		this.aceptados = aceptados;
+	}
+	public List<Ciudadano> getPostulantes() {
+		return postulantes;
+	}
+	public void setPostulantes(List<Ciudadano> postulantes) {
+		this.postulantes = postulantes;
+	}*/
 	
 	
 	

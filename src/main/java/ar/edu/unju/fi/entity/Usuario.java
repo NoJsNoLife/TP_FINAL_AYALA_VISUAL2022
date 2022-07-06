@@ -1,4 +1,4 @@
-package ar.edu.unju.fi.entity;
+/*package ar.edu.unju.fi.entity;
 
 import java.io.Serializable;
 
@@ -27,31 +27,7 @@ public class Usuario implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3373989659425507614L;
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "usu_codigo")
-	private int codigo;
-	@Column(name = "email")
-	@Email(message = "Ingrese un email valido") @NotBlank(message = "Ingrese un email valido")
-	private String email;
-	@Column(name = "contrasenia")
-	@NotBlank(message = "Ingrese una contraseña valida") @Size(min=8, max=12, message="Debe tener un minimo de 8 caracteres o un maximo de 12")
-	private String contrasenia;
-	@Column(name = "provincia")
-	private	String provincia;
-	@Column(name = "tipo")
-	private	String tipo;
-	@Column(name = "estado")
-	private boolean estado = true;
-	
-	//-----EMPLEADOR A USUARIO----- IMPLICA QUE UN SOLO USUARIO SOLO PUEDE PERTENECER A UN SOLO TIPO EMPLEADOR
-	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-	@PrimaryKeyJoinColumn
-	private Empleador empleador;
-	
-	//-----CIUDADANO A USUARIO----- IMPLICA QUE UN SOLO USUARIO SOLO PUEDE PERTENECER A UN SOLO TIPO CIUDADANO
-	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-	@PrimaryKeyJoinColumn
-	private Ciudadano ciudadano;
+	/*private static final long serialVersionUID = -3373989659425507614L;
 	
 	
 	public String getEmail() {
@@ -89,8 +65,8 @@ public class Usuario implements Serializable{
 	}
 	public void setEstado(boolean estado) {
 		this.estado = estado;
-	}
-	public Empleador getEmpleador() {
+	}*/
+	/*public Empleador getEmpleador() {
 		return empleador;
 	}
 	public void setEmpleador(Empleador empleador) {
@@ -104,4 +80,4 @@ public class Usuario implements Serializable{
 	}
 
 	
-}
+}*/

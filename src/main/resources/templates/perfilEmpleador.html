@@ -11,14 +11,14 @@
 	<body>		
 		<div class="container">
 			<header th:replace="/layouts/header :: header"></header>
-			<nav th:replace="/Layouts/navbarL :: navbarL"></nav>
+			<nav th:replace="/Layouts/navbarE :: navbarE"></nav>
 			<br>
 			<p class="h4 mb-10">Empleador</p>
 			<br><br><br>
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			   <a th:href="@{#}" id="nuevo" class="btn btn-primary">Editar Perfil</a>
-			   <a th:href="@{#}" id="nuevo" class="btn btn-primary">Lista de Ofertas</a>
-			   <a th:href="@{/indexL}" id="nuevo" class="btn btn-primary">Volver</a>
+			   <a th:href="@{/empleador/perfil/editar}" class="btn btn-primary">Editar Perfil</a>
+			   <a th:href="@{#}" class="btn btn-primary">Lista de Ofertas</a>
+			   <a th:href="@{/indexE}" class="btn btn-primary">Volver</a>
 			</div>
 			<br>
 			<div class="col-12 d-flex justify-content-center">
@@ -37,12 +37,24 @@
 							<td th:text="${empleador.getNombre()}"></td>
 						</tr>
 						<tr>
+							<th>Email</th>
+							<td th:text="${empleador.getEmail()}"></td>
+						</tr>
+						<tr>
 							<th>Fecha de Inicio</th>
 							<td th:text="${empleador.getFechaInicio()}"></td>
 						</tr>
 						<tr>
+							<th>Provincia</th>
+							<td th:text="${empleador.getProvincia()}"></td>
+						</tr>
+						<tr>
 							<th>Domicilio</th>
 							<td th:text="${empleador.getDomicilio()}"></td>
+						</tr>
+						<tr>
+							<th>Teléfono</th>
+							<td th:text="${empleador.getTelefono()}"></td>
 						</tr>
 						<tr>
 							<th>Página</th>
