@@ -1,12 +1,14 @@
 package ar.edu.unju.fi.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -52,11 +54,11 @@ public class Oferta implements Serializable{
 	@NotBlank(message = "No puede estar vacio")
 	private String beneficios;
 	private boolean disponible = (vacantes > 0);
-	//private List<Ciudadano> aceptados;
+
 	
-	/*//-----CIUDADANO A OFERTAS----- IMPLICA QUE UNA OFERTA PUEDE TENER VARIOS CIUDADANOS POSTULADOS
-		@ManyToMany(fetch = FetchType.LAZY)
-		private List<Ciudadano> postulantes;*/
+	//-----CIUDADANO A OFERTAS----- IMPLICA QUE UNA OFERTA PUEDE TENER VARIOS CIUDADANOS POSTULADOS
+	@ManyToMany(mappedBy = "ofertas")
+	private List<Ciudadano> postulantes;
 	
 	public Oferta() {
 	}

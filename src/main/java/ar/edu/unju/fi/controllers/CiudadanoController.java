@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.entity.Ciudadano;
+import ar.edu.unju.fi.entity.Cv;
 import ar.edu.unju.fi.entity.Empleador;
 import ar.edu.unju.fi.services.ICiudadanoService;
+import ar.edu.unju.fi.services.ICvService;
 import ar.edu.unju.fi.services.IEmpleadorService;
 
 @Controller
@@ -40,14 +42,14 @@ public class CiudadanoController {
 	 *  FALTA AGREGAR VALIDACION SI EXISTE UN USUARIO ESTADO TRUE DE TIPO CIUDADANO PARA QUE NO ENTRE A ESTAS PAGINAS. EL CIUDADANO SOLO ENTRA A SUS PAGINAS, NO A LAS DE TIPO EMPLEADOR
 	 */
 	
-	/*@Autowired
-	private IEmpleadorService empleadorSer;*/
-	
 	@Autowired
 	private ICiudadanoService ciudadanoSer;
 	
 	@Autowired
 	private IEmpleadorService empleadorSer;
+	
+	@Autowired
+	private ICvService cvSer;
 	
 	
 	private static final Log LOGGER = LogFactory.getLog(CiudadanoController.class);
@@ -110,6 +112,49 @@ public class CiudadanoController {
 		return mav;
 	}
 	
+	@GetMapping("/perfil/cv")
+	public ModelAndView getVerCv() {
+		Empleador e = empleadorSer.findByEstado(true);
+		if(e!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexE");
+			mav.addObject("empleador", e);
+			LOGGER.info("Redirigido a Iniciar Sesion...");
+			return mav;
+		}
+		Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c!=null) {
+			ModelAndView mav = new ModelAndView("verCv");
+			mav.addObject("ciudadano", c);
+			mav.addObject("cv", c.getCv());
+			LOGGER.info("Entrando al de cv del ciudadano con DNI: "+c.getDni());
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("redirect:/ciudadano/login");
+		LOGGER.info("Redirigido a Iniciar Sesion...");
+		return mav;
+	}
+	
+	@GetMapping("/perfil/cv/editar")
+	public ModelAndView getEditarCv() {
+		Empleador e = empleadorSer.findByEstado(true);
+		if(e!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexE");
+			mav.addObject("empleador", e);
+			LOGGER.info("Redirigido a Iniciar Sesion...");
+			return mav;
+		}
+		Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c!=null) {
+			ModelAndView mav = new ModelAndView("editarCv");
+			mav.addObject("cv", c.getCv());
+			LOGGER.info("Entrando a edición de Cv del ciudadano con DNI: "+c.getDni());
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("redirect:/ciudadano/login");
+		LOGGER.info("Redirigido a Iniciar Sesion...");
+		return mav;
+	}
+	
 	@GetMapping("/login")
 	public ModelAndView getLoginEmpleador(Ciudadano ciudadano) {
 		Empleador e = empleadorSer.findByEstado(true);
@@ -164,6 +209,9 @@ public class CiudadanoController {
 			return mav;
 		}
 		ModelAndView mav = new ModelAndView("redirect:/indexC");
+		Cv cv = cvSer.getCv();
+		cvSer.saveCv(cv);
+		ciudadano.setCv(cv);
 		ciudadanoSer.saveCiudadano(ciudadano);
 		return mav;
 	}
@@ -179,6 +227,20 @@ public class CiudadanoController {
 		ModelAndView mav = new ModelAndView("redirect:/ciudadano/perfil");
 		ciudadanoSer.modifyPerfilC(ciudadano);
 		mav.addObject("ciudadano", ciudadano);
+		return mav;
+	}
+	
+	@PostMapping("/perfil/cv/editar")
+	public ModelAndView getEditarCv( @ModelAttribute("ciudadano")Cv cv, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			LOGGER.info("No se cumplen las reglas de validacion");
+			ModelAndView mav = new ModelAndView("editarC");
+			mav.addObject("cv", cv);
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("redirect:/ciudadano/perfil/cv");
+		cvSer.modifyCv(cv);
+		mav.addObject("cv", cv);
 		return mav;
 	}
 	

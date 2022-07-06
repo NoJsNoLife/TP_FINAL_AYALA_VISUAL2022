@@ -10,9 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -22,6 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Entity
+@Table(name = "ciudadanos")
 @Component
 public class Ciudadano implements Serializable{
 
@@ -44,7 +46,7 @@ public class Ciudadano implements Serializable{
 	@Column(name = "estado")
 	private boolean estado = true;
 	@Column(name = "telefono")
-	private int telefono;
+	private String telefono;
 	@Column(name = "estadocivil")
 	private String estadoC;
 	@Column(name = "nroTramite")
@@ -54,8 +56,8 @@ public class Ciudadano implements Serializable{
 	private LocalDate fechaNacimiento;
 	
 	//-----CIUDADANO A CV----- IMPLICA QUE UN SOLO USUARIO SOLO PUEDE TENER UN TIPO CV
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@OneToOne
+	@JoinColumn(name="codigo")
 	private Cv cv;
 	
 	//-----CIUDADANO A OFERTAS----- IMPLICA QUE UN SOLO USUARIO SOLO PUEDE TENER VARIAS OFERTAS A LAS QUE SE POSTULE GUARDADAS EN UNA LISTA
@@ -135,11 +137,11 @@ public class Ciudadano implements Serializable{
 		this.provincia = provincia;
 	}
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 

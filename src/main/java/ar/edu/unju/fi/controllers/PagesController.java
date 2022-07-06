@@ -29,16 +29,6 @@ public class PagesController {
 	
 	@GetMapping("/")
 	public String getIndexPage(Model model) {
-		Empleador e = empleadorSer.findByEstado(true);
-		if(e!=null) {
-			LOGGER.info("Redirigido a Inicio...");
-			return "redirect:/indexE";
-		}
-		Ciudadano c = ciudadanoSer.findByEstado(true);
-		if(c!=null) {
-			LOGGER.info("Redirigido a Inicio...");
-			return "redirect:/indexC";
-		}
 		return "index";
 	}
 	

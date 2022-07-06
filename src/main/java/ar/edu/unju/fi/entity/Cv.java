@@ -1,18 +1,15 @@
 package ar.edu.unju.fi.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -27,35 +24,30 @@ public class Cv implements Serializable{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "codigo")
 	private int codigo;
 	@Column(name = "nombre")
-	@NotBlank(message = "No puede estar vacio")
-	private String nombre;
+	private String nombre = null;
 	@Column(name = "apellido")
-	@NotBlank(message = "No puede estar vacio")
-	private String apellido;
-	@Column(name = "nacimiento")
-	@DateTimeFormat(pattern = "yyyy-MM-dd") @Past(message = "La fecha no es correcta")
-	private LocalDate fechaNacimiento;
-	@Column(name = "dni")
-	@NotBlank(message = "No puede estar vacio")
-	private String dni;
+	private String apellido = null;
 	@Column(name = "contacto")
-	@NotBlank(message = "No puede estar vacio")
-	private String contacto;
+	private String contacto = null;
 	@Column(name = "educacion")
-	@NotBlank(message = "No puede estar vacio")
-	private String educacion;
+	private String educacion = null;
 	@Column(name = "idiomas")
-	@NotBlank(message = "No puede estar vacio")
-	private String idiomas;
+	private String idiomas = null;
 	@Column(name = "conocimientosInf")
-	@NotBlank(message = "No puede estar vacio")
-	private String conocimientosInf;
+	private String conocimientosInf = null;
 	@Column(name = "experienciaLab")
-	@NotBlank(message = "No puede estar vacio")
-	private String experienciaLab;
+	private String experienciaLab = null;
+	@Column(name = "infoComplementaria")
+	private String infoComplementaria = null;
 	@Column(name = "datosAdicionales")
-	@NotBlank(message = "No puede estar vacio")
-	private String datosAdicionales;
+	private String datosAdicionales = null;
+	
+	@OneToOne(mappedBy = "cv")
+	private Ciudadano ciudadano;
+	
+	public Cv() {
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -67,18 +59,6 @@ public class Cv implements Serializable{
 	}
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
-	}
-	public LocalDate getFechaNacimiento() {
-		return fechaNacimiento;
-	}
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
-	}
-	public String getDni() {
-		return dni;
-	}
-	public void setDni(String dni) {
-		this.dni = dni;
 	}
 	public String getContacto() {
 		return contacto;
@@ -116,7 +96,29 @@ public class Cv implements Serializable{
 	public void setDatosAdicionales(String datosAdicionales) {
 		this.datosAdicionales = datosAdicionales;
 	}
-	
-	
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public Ciudadano getCiudadano() {
+		return ciudadano;
+	}
+
+	public void setCiudadano(Ciudadano ciudadano) {
+		this.ciudadano = ciudadano;
+	}
+
+	public String getInfoComplementaria() {
+		return infoComplementaria;
+	}
+
+	public void setInfoComplementaria(String infoComplementaria) {
+		this.infoComplementaria = infoComplementaria;
+	}
 	
 }
