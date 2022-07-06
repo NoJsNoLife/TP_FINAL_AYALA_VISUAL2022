@@ -1,18 +1,22 @@
 package ar.edu.unju.fi.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -27,8 +31,8 @@ public class Oferta implements Serializable{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "ofe_codigo")
 	private int codigo;
 	@Column(name = "vacantes")
-	@Min(value=1)
-	private int vacantes = 1;
+	@Min(value=1, message="Debe ser mayor a 0")
+	private int vacantes;
 	@Column(name = "puesto")
 	@NotBlank(message = "No puede estar vacio")
 	private String puesto;
@@ -53,12 +57,24 @@ public class Oferta implements Serializable{
 	@Column(name = "beneficios")
 	@NotBlank(message = "No puede estar vacio")
 	private String beneficios;
-	private boolean disponible = (vacantes > 0);
-
+	@Column(name = "disponible")
+	private boolean disponible = isDisponible();
+	@Column(name = "fecha")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fecha = LocalDate.now();
+	@Column(name = "provincia")
+	private String provincia;
+	@Column(name = "cuit")
+	private long cuit;
+	
+	//-----OFERTA A EMPLEADOR
+	@ManyToOne
+	@JoinColumn(name = "codigo")
+	private Empleador empleador;
 	
 	//-----CIUDADANO A OFERTAS----- IMPLICA QUE UNA OFERTA PUEDE TENER VARIOS CIUDADANOS POSTULADOS
 	@ManyToMany(mappedBy = "ofertas")
-	private List<Ciudadano> postulantes;
+	private Set<Ciudadano> postulantes;
 	
 	public Oferta() {
 	}
@@ -117,7 +133,7 @@ public class Oferta implements Serializable{
 		this.beneficios = beneficios;
 	}
 	public boolean isDisponible() {
-		return disponible;
+		return (vacantes > 0);
 	}
 	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
@@ -128,19 +144,36 @@ public class Oferta implements Serializable{
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	/*public List<Ciudadano> getAceptados() {
-		return aceptados;
+	public LocalDate getFecha() {
+		return fecha;
 	}
-	public void setAceptados(List<Ciudadano> aceptados) {
-		this.aceptados = aceptados;
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
 	}
-	public List<Ciudadano> getPostulantes() {
+	public Set<Ciudadano> getPostulantes() {
 		return postulantes;
 	}
-	public void setPostulantes(List<Ciudadano> postulantes) {
+	public void setPostulantes(Set<Ciudadano> postulantes) {
 		this.postulantes = postulantes;
-	}*/
-	
+	}
+	public String getProvincia() {
+		return provincia;
+	}
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+	public long getCuit() {
+		return cuit;
+	}
+	public void setCuit(long cuit) {
+		this.cuit = cuit;
+	}
+	public Empleador getEmpleador() {
+		return empleador;
+	}
+	public void setEmpleador(Empleador empleador) {
+		this.empleador = empleador;
+	}
 	
 	
 }

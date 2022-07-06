@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.entity.Ciudadano;
@@ -19,6 +20,7 @@ import ar.edu.unju.fi.entity.Empleador;
 import ar.edu.unju.fi.services.ICiudadanoService;
 import ar.edu.unju.fi.services.ICvService;
 import ar.edu.unju.fi.services.IEmpleadorService;
+import ar.edu.unju.fi.services.IOfertaService;
 
 @Controller
 @RequestMapping("/ciudadano")
@@ -26,10 +28,18 @@ public class CiudadanoController {
 	
 	/*	MEDIANTE ESTE FRAGMENTO CONTROLO LA SESION DEL USUARIO Y LO ENVIO A LAS VIEWS CORRESPONDIENTES    FUNCIONA DENTRO DE LOS METODOS GET
 	 * 
-	 * Empleador e = empleadorSer.findByEstado(true);
+	 * Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexC");
+			mav.addObject("ciudadano", c);
+			LOGGER.info("Redirigido a Iniciar Sesion...");
+			return mav;
+		}
+		Empleador e = empleadorSer.findByEstado(true);
 		if(e!=null) {
-			ModelAndView mav = new ModelAndView("redirect:/*****");
-			LOGGER.info("Redirigido a ******...");
+			ModelAndView mav = new ModelAndView("redirect:/indexE");
+			mav.addObject(e);
+			LOGGER.info("Redirigido a Inicio...");
 			return mav;
 		}
 	 * 
@@ -39,7 +49,7 @@ public class CiudadanoController {
 	 *  LOS METODOS MODELANDVIEW SE USAN PARA PAGINAS QUE REQUIERAN UN FLUJO DE INFORMACION DEL USUARIO
 	 *  
 	 *  
-	 *  FALTA AGREGAR VALIDACION SI EXISTE UN USUARIO ESTADO TRUE DE TIPO CIUDADANO PARA QUE NO ENTRE A ESTAS PAGINAS. EL CIUDADANO SOLO ENTRA A SUS PAGINAS, NO A LAS DE TIPO EMPLEADOR
+	 * 
 	 */
 	
 	@Autowired
@@ -50,6 +60,9 @@ public class CiudadanoController {
 	
 	@Autowired
 	private ICvService cvSer;
+	
+	@Autowired
+	private IOfertaService ofertaSer;
 	
 	
 	private static final Log LOGGER = LogFactory.getLog(CiudadanoController.class);
@@ -155,6 +168,73 @@ public class CiudadanoController {
 		return mav;
 	}
 	
+	@GetMapping("/perfil/postulaciones")
+	public ModelAndView getOfertas() {
+		Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c!=null) {
+			ModelAndView mav = new ModelAndView("misPostulaciones");
+			System.out.println(c.getOfertas());
+			mav.addObject("ofertas", c.getOfertas());
+			LOGGER.info("Entrando a postulaciones del ciudadano con DNI: "+c.getDni());
+			return mav;
+		}
+		Empleador e = empleadorSer.findByEstado(true);
+		if(e!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexE");
+			LOGGER.info("Redirigido a Inicio...");
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("redirect:/ciudadano/login");
+		LOGGER.info("Redirigido a Iniciar Sesion...");
+		return mav;
+	}
+	
+	@GetMapping("/oferta")
+	public ModelAndView getOferta(@RequestParam(value="codigo") int codigo) {
+		Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c!=null) {
+			ModelAndView mav = new ModelAndView("verOfertaC");
+			LOGGER.info("Cargando vista de la oferta");
+			mav.addObject("oferta", ofertaSer.findByCodigo(codigo));
+			return mav;
+		}
+		Empleador e = empleadorSer.findByEstado(true);
+		if(e!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexE");
+			LOGGER.info("Redirigido a Inicio...");
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("redirect:/");
+		return mav;
+	}
+	
+	@GetMapping("/oferta/postular")
+	public ModelAndView postular(@RequestParam(value="codigo") int codigo) {
+		Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c!=null) {
+			if(ciudadanoSer.yaPostulado(c, codigo)) {
+				ModelAndView mav = new ModelAndView("redirect:/ciudadano/oferta?codigo="+codigo);
+				return mav;
+			}
+			if(cvSer.isComplete(c.getCv())) {
+				ciudadanoSer.postular(c, codigo);
+			} else {
+				LOGGER.info("El Cv del ciudadano con DNI: "+c.getDni()+" No esta completo y no puede postularse");
+			}
+			ModelAndView mav = new ModelAndView("verOfertaC");
+			mav.addObject("oferta", ofertaSer.findByCodigo(codigo));
+			return mav;
+		}
+		Empleador e = empleadorSer.findByEstado(true);
+		if(e!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexE");
+			LOGGER.info("Redirigido a Inicio...");
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("redirect:/");
+		return mav;
+	}
+	
 	@GetMapping("/login")
 	public ModelAndView getLoginEmpleador(Ciudadano ciudadano) {
 		Empleador e = empleadorSer.findByEstado(true);
@@ -231,7 +311,7 @@ public class CiudadanoController {
 	}
 	
 	@PostMapping("/perfil/cv/editar")
-	public ModelAndView getEditarCv( @ModelAttribute("ciudadano")Cv cv, BindingResult bindingResult) {
+	public ModelAndView getEditarCv( @ModelAttribute("cv")Cv cv, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			LOGGER.info("No se cumplen las reglas de validacion");
 			ModelAndView mav = new ModelAndView("editarC");
@@ -259,7 +339,7 @@ public class CiudadanoController {
 			ModelAndView mav = new ModelAndView("iniciarSesionC");
 			mav.addObject("ciudadano", ciudadano);
 			return mav;
-		}	
+		}
 		ModelAndView mav = new ModelAndView("iniciarSesionC");
 		LOGGER.info("Error al iniciar sesion para el DNI: "+ciudadano.getDni());
 		return mav;

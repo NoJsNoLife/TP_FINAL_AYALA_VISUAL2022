@@ -12,7 +12,21 @@
 		<header th:replace="/layouts/header::header"></header>
 		<nav th:replace="/Layouts/navbarC::navbarC"></nav>
 	  	<section id="indexC">
-			<h2>Ofertas Disponibles</h2>
+			<h2 >Ofertas Disponibles</h2>
+			<div class="row">
+				<div th:each="oferta:${ofertas}" class="col-md-4">
+					<div class="card" style="width: 18rem;">
+						<div class="card-body">
+						    <h5 th:text="${oferta.getPuesto()}" class="card-title"></h5>
+					        <p th:text="${oferta.getDisponibilidad()}" class="card-text"></p>
+						    <p th:text="${oferta.getSalario()}" class="card-text"></p>
+						    <a th:href="@{/ciudadano/oferta?codigo=}+${oferta.getCodigo()}" class="btn btn-primary">Ver Oferta</a>
+						</div>
+					</div>
+					<br>
+					<br>
+				</div>
+			</div>
 		</section>
 		<footer th:replace="/layouts/footer::footer"></footer>
 	</div>

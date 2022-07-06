@@ -5,18 +5,19 @@
 		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 		<link rel="stylesheet" type="text/css" href="../static/css/style.css"/>		
 		<meta charset="UTF-8">
-		<title>Mis Postulaciones</title>		
+		<title>Lista de Ofertas</title>		
 	</head>
 	
 	<body>		
 		<div class="container">
 			<header th:replace="/layouts/header :: header"></header>
-			<nav th:replace="/layouts/navbarC::navbarC"></nav>
+			<nav th:replace="/layouts/navbarE::navbarE"></nav>
 			<br>
-			<p class="h4 mb-10">Mis Postulaciones</p>
+			<p class="h4 mb-10">Mis Ofertas</p>
 			<br>
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			   <a th:href="@{/ciudadano/perfil/postulaciones}" id="nuevo" class="btn btn-primary">Volver</a>
+			   <a th:href="@{/empleador/perfil/ofertas/nuevo}" id="nuevo" class="btn btn-primary">Publicar Oferta</a>
+			   <a th:href="@{/empleador/perfil}" id="nuevo" class="btn btn-primary">Volver</a>
 			</div>
 			<br>
 			<div class="col-12 d-flex justify-content-center">
@@ -37,7 +38,8 @@
 							<td th:text="${oferta.getSalario()}"></td>
 							<td th:text="${oferta.isDisponible()}"></td>
 							<td>
-							<a th:href="@{/empleador/perfil/ofertas/eliminar/oferta?codigo=}+${oferta.getCodigo()}" class="btn btn-primary">Eliminar</a>
+							<a th:href="@{/empleador/perfil/ofertas/editar/oferta?codigo=}+${oferta.getCodigo()}" class="btn btn-primary">Editar</a>
+							<a th:href="@{/empleador/perfil/ofertas/eliminar/oferta?codigo=}+${oferta.getCodigo()}" class="btn btn-primary">Editar</a>
 							</td>
 						</tr>
 					</table>

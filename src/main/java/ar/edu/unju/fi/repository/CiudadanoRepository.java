@@ -26,4 +26,6 @@ public interface CiudadanoRepository extends JpaRepository<Ciudadano,Long> {
 	
 	@Query("select c from Ciudadano c where c.estado = ?1")
 	public Ciudadano findByEstado(boolean estado);
+	
+	public List<Ciudadano> findByProvincia(String provincia);
 }

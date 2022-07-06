@@ -69,7 +69,7 @@ public class EmpleadorServiceImp implements IEmpleadorService {
 				e.setDomicilio(empleador.getDomicilio());
 				e.setNombre(empleador.getNombre());
 				e.setPagina(empleador.getPagina());
-				e.setProvincia(empleador.getProvincia());
+				e.setTelefono(empleador.getTelefono());
 				e.setRazon(empleador.getRazon());
 				empleadorRepo.save(e);
 				LOGGER.info("Se ha modificado el usuario con CUIT: "+e.getCuit());

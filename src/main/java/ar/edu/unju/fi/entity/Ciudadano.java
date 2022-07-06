@@ -2,7 +2,7 @@ package ar.edu.unju.fi.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -62,7 +63,12 @@ public class Ciudadano implements Serializable{
 	
 	//-----CIUDADANO A OFERTAS----- IMPLICA QUE UN SOLO USUARIO SOLO PUEDE TENER VARIAS OFERTAS A LAS QUE SE POSTULE GUARDADAS EN UNA LISTA
 	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Oferta> ofertas;
+	 @JoinTable(
+	            name = "student_course",
+	            joinColumns = {@JoinColumn(name = "student_id")},
+	            inverseJoinColumns = {@JoinColumn(name = "course_id")}
+	    )
+	private Set<Oferta> ofertas;
 	
 	public Ciudadano() {
 	}
@@ -92,10 +98,10 @@ public class Ciudadano implements Serializable{
 	public void setCv(Cv cv) {
 		this.cv = cv;
 	}
-	public List<Oferta> getOfertas() {
+	public Set<Oferta> getOfertas() {
 		return ofertas;
 	}
-	public void setOfertas(List<Oferta> ofertas) {
+	public void setOfertas(Set<Oferta> ofertas) {
 		this.ofertas = ofertas;
 	}
 	public int getCodigo() {

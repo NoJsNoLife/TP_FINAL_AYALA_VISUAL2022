@@ -1,5 +1,6 @@
 package ar.edu.unju.fi.controllers;
 
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import ar.edu.unju.fi.entity.Ciudadano;
 import ar.edu.unju.fi.entity.Empleador;
 import ar.edu.unju.fi.services.ICiudadanoService;
 import ar.edu.unju.fi.services.IEmpleadorService;
+import ar.edu.unju.fi.services.IOfertaService;
 
 
 @Controller
@@ -24,11 +26,41 @@ public class PagesController {
 	
 	@Autowired
 	private ICiudadanoService ciudadanoSer;
+	
+	@Autowired
+	private IOfertaService ofertaSer;
 
 	private static final Log LOGGER = LogFactory.getLog(PagesController.class);
+	/*
+	 * 	FRAGMENTO DE CODIGO USADO PARA CONTROLAR EL ACCESO A LAS VIEWS DEPENDIENDO DE LA SESION
+	 * 
+	 * Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c==null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexC");
+			mav.addObject("ciudadano", c);
+			LOGGER.info("Redirigido a Iniciar Sesion...");
+			return mav;
+		}
+		
+		
+		
+		
+		Empleador e = empleadorSer.findByEstado(true);
+		if(e==null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexE");
+			mav.addObject(e);
+			LOGGER.info("Redirigido a Inicio...");
+			return mav;
+		}
+	 */
 	
 	@GetMapping("/")
 	public String getIndexPage(Model model) {
+		Ciudadano c = ciudadanoSer.findByEstado(true);
+		Empleador e = empleadorSer.findByEstado(true);
+		if(c==null & e==null) {
+			return "index";
+		}
 		return "index";
 	}
 	
@@ -47,6 +79,8 @@ public class PagesController {
 			return mav;
 		}
 		ModelAndView mav = new ModelAndView("indexE");
+		LOGGER.info("Cargando ofertas de la pagina de inicio...");
+		mav.addObject("ofertas", ofertaSer.findByVacantesGreaterThan(0));
 		return mav;
 	}
 	
@@ -65,6 +99,8 @@ public class PagesController {
 			return mav;
 		}
 		ModelAndView mav = new ModelAndView("indexC");
+		LOGGER.info("Cargando ofertas de la pagina de inicio...");
+		mav.addObject("ofertas", ofertaSer.findByVacantesGreaterThan(0));
 		return mav;
 	}
 	

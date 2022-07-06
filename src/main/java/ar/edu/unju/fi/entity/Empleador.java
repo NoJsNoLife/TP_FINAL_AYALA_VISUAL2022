@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -64,7 +63,7 @@ public class Empleador implements Serializable{
 	
 	
 	//-----EMPLEADOR A OFERTA----- IMPLICA QUE EL TIPO EMPLEADOR PUEDE PUBLICAR UNA O MAS OFERTAS Y GUARDARLAS EN UNA LISTA
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "empleador")
 	private List<Oferta> ofertas;
 	
 	public Empleador() {

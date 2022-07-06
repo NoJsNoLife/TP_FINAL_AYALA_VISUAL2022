@@ -1,12 +1,17 @@
 package ar.edu.unju.fi.servicesImpl;
 
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unju.fi.entity.Ciudadano;
+import ar.edu.unju.fi.entity.Oferta;
 import ar.edu.unju.fi.repository.CiudadanoRepository;
+import ar.edu.unju.fi.repository.OfertaRepository;
 import ar.edu.unju.fi.services.ICiudadanoService;
 
 @Service
@@ -14,6 +19,9 @@ public class CiudadanoServiceImp implements ICiudadanoService {
 	
 	@Autowired
 	private CiudadanoRepository ciudadanoRepo;
+	
+	@Autowired
+	private OfertaRepository ofertaRepo;
 	
 	private static final Log LOGGER = LogFactory.getLog(CiudadanoServiceImp.class);
 	
@@ -107,6 +115,42 @@ public class CiudadanoServiceImp implements ICiudadanoService {
 	@Override
 	public Ciudadano findByDni(long dni) {
 		return ciudadanoRepo.findByDni(dni);
+	}
+
+	@Override
+	public List<Ciudadano> findByProvincia(String provincia) {
+		return ciudadanoRepo.findByProvincia(provincia);
+	}
+
+	@Override
+	public boolean postular(Ciudadano ciudadano, int codigo) {
+		try {
+			ciudadano.getOfertas().add(ofertaRepo.findByCodigo(codigo));
+			ciudadanoRepo.save(ciudadano);
+			LOGGER.info("El ciudadano con DNI: "+ciudadano.getDni()+" se ha postulado a la oferta con Codigo: "+codigo);
+			return true;
+		} catch (Exception e) {
+			LOGGER.info("Ocurrio un error al postular al ciudadano");
+			return false;
+		}
+	}
+
+	@Override
+	public boolean yaPostulado(Ciudadano ciudadano, int codigo) {
+		try {
+			Set<Oferta> ofertas = ciudadano.getOfertas();
+			for(Oferta oferta : ofertas) {
+				if(oferta.getCodigo()==codigo) {
+					LOGGER.info("El ciudadano con DNI: "+ciudadano.getDni()+" ya se ha postulado previamente a la oferta con Codigo: "+codigo);
+					return true;
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.info("Ocurrio un error al validar la postulacion del ciudadano");
+			return false;
+		}
+		LOGGER.info("El ciudadano con DNI: "+ciudadano.getDni()+" no se ha postulado previamente a la oferta con Codigo: "+codigo);
+		return false;
 	}
 
 
