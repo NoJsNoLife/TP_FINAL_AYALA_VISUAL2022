@@ -182,6 +182,45 @@ public class EmpleadorController {
 		return mav;
 	}
 	
+	@GetMapping("/perfil/ofertas/ver/oferta")
+	public ModelAndView getOfertaPostulantes(@RequestParam(value="codigo") int codigo) {
+		Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexC");
+			LOGGER.info("Redirigido a Inicio...");
+			return mav;
+		}
+		Empleador e = empleadorSer.findByEstado(true);
+		if(e!=null) {
+			ModelAndView mav = new ModelAndView("listaPostulaciones");
+			LOGGER.info("Cargando vista de postulantes de la oferta");
+			Oferta o = ofertaSer.findByCodigo(codigo);
+			mav.addObject("ciudadanos", o.getPostulantes());
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("redirect:/");
+		return mav;
+	}
+	
+	@GetMapping("/perfil/ofertas/aceptar/ciudadano")
+	public ModelAndView aceptarCiudadano(@RequestParam(value="dni") long dni) {
+		Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexC");
+			LOGGER.info("Redirigido a Inicio...");
+			return mav;
+		}
+		Empleador e = empleadorSer.findByEstado(true);
+		if(e!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/empleador/perfil/ofertas");
+			c = ciudadanoSer.findByDni(dni);
+			
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("redirect:/");
+		return mav;
+	}
+	
 	@GetMapping("/login")
 	public ModelAndView getLoginEmpleador(Empleador empleador) {
 		Ciudadano c = ciudadanoSer.findByEstado(true);

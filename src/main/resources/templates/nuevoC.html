@@ -21,7 +21,7 @@
 			  
 			  <div class="mb-3 row">
 			    <label for="idFecha" class="col-form-label">Fecha de Nacimiento</label>
-				<input th:field="*{fechaNacimiento}" type="date" class="form-control" id="idFecha">
+				<input th:field="*{fechaNacimiento}" type="date" class="form-control" id="idFecha" min="1930-07-06" max="2004-07-06">
 				<div class="text-danger" th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}"></div>
 			  </div>
 			  

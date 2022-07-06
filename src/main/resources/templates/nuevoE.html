@@ -27,7 +27,7 @@
 			  
 			  <div class="mb-3 row">
 			    <label for="idFecha" class="col-form-label">Fecha de Inicio</label>
-				<input th:field="*{fechaInicio}" type="date" class="form-control" id="idFecha">
+				<input th:field="*{fechaInicio}" type="date" class="form-control" id="idFecha" max="2022-07-06">
 				<div class="text-danger" th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}"></div>
 			  </div>
 			  

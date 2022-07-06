@@ -20,7 +20,7 @@
 			  
 			  <div class="mb-3 row">
 			    <label for="idContrasenia" class="col-form-label">Contraseña</label>
-			    <input th:field="*{contrasenia}" type="text" class="form-control" id="idContrasenia">		    
+			    <input th:field="*{contrasenia}" type="password" class="form-control" id="idContrasenia">		    
 			    <div class="text-danger" th:if="${#fields.hasErrors('contrasenia')}" th:errors="*{contrasenia}"></div>
 			  </div>
 			  

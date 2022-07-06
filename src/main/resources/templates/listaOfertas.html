@@ -38,8 +38,9 @@
 							<td th:text="${oferta.getSalario()}"></td>
 							<td th:text="${oferta.isDisponible()}"></td>
 							<td>
+							<a th:href="@{/empleador/perfil/ofertas/ver/oferta?codigo=}+${oferta.getCodigo()}" class="btn btn-primary">Ver Postulantes</a>
 							<a th:href="@{/empleador/perfil/ofertas/editar/oferta?codigo=}+${oferta.getCodigo()}" class="btn btn-primary">Editar</a>
-							<a th:href="@{/empleador/perfil/ofertas/eliminar/oferta?codigo=}+${oferta.getCodigo()}" class="btn btn-primary">Editar</a>
+							<a th:href="@{/empleador/perfil/ofertas/eliminar/oferta?codigo=}+${oferta.getCodigo()}" class="btn btn-primary">Eliminar</a>
 							</td>
 						</tr>
 					</table>

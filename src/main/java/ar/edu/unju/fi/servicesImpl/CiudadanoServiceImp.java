@@ -153,5 +153,10 @@ public class CiudadanoServiceImp implements ICiudadanoService {
 		return false;
 	}
 
+	@Override
+	public List<Ciudadano> findAll() {
+		return ciudadanoRepo.findAll();
+	}
+
 
 }

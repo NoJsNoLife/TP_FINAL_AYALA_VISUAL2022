@@ -105,4 +105,5 @@ public class OfertaServiceImp implements IOfertaService {
 		return ofertaRepo.findByVacantesGreaterThan(vacantes);
 	}
 
+
 }

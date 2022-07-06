@@ -173,7 +173,6 @@ public class CiudadanoController {
 		Ciudadano c = ciudadanoSer.findByEstado(true);
 		if(c!=null) {
 			ModelAndView mav = new ModelAndView("misPostulaciones");
-			System.out.println(c.getOfertas());
 			mav.addObject("ofertas", c.getOfertas());
 			LOGGER.info("Entrando a postulaciones del ciudadano con DNI: "+c.getDni());
 			return mav;

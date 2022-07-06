@@ -21,6 +21,5 @@ public interface OfertaRepository extends JpaRepository<Oferta,Long>{
 	
 	public List<Oferta> findByFecha(LocalDate fecha);
 	
-
 	public List<Oferta> findByVacantesGreaterThan(int vacantes);
 }

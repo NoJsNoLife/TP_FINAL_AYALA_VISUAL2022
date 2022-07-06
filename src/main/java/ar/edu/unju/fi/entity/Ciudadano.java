@@ -64,11 +64,18 @@ public class Ciudadano implements Serializable{
 	//-----CIUDADANO A OFERTAS----- IMPLICA QUE UN SOLO USUARIO SOLO PUEDE TENER VARIAS OFERTAS A LAS QUE SE POSTULE GUARDADAS EN UNA LISTA
 	@ManyToMany(fetch = FetchType.LAZY)
 	 @JoinTable(
-	            name = "student_course",
-	            joinColumns = {@JoinColumn(name = "student_id")},
-	            inverseJoinColumns = {@JoinColumn(name = "course_id")}
+	            name = "ciudadano_oferta",
+	            joinColumns = {@JoinColumn(name = "ciu_codigo")},
+	            inverseJoinColumns = {@JoinColumn(name = "ofe_codigo")}
 	    )
 	private Set<Oferta> ofertas;
+	@ManyToMany(fetch = FetchType.LAZY)
+	 @JoinTable(
+	            name = "ciudadano_oferta",
+	            joinColumns = {@JoinColumn(name = "ciu_codigo")},
+	            inverseJoinColumns = {@JoinColumn(name = "ofe_codigo")}
+	    )
+	private Set<Oferta> aceptados;
 	
 	public Ciudadano() {
 	}
@@ -157,6 +164,14 @@ public class Ciudadano implements Serializable{
 
 	public void setEstadoC(String estadoC) {
 		this.estadoC = estadoC;
+	}
+
+	public Set<Oferta> getAceptados() {
+		return aceptados;
+	}
+
+	public void setAceptados(Set<Oferta> aceptados) {
+		this.aceptados = aceptados;
 	}
 	
 	

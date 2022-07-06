@@ -6,6 +6,7 @@ import ar.edu.unju.fi.entity.Ciudadano;
 
 public interface ICiudadanoService {
 	public Ciudadano getCiudadano();
+	public List<Ciudadano> findAll();
 	public List<Ciudadano> findByProvincia(String provincia);
 	public boolean saveCiudadano(Ciudadano ciudadano);
 	public void setSesionIn(Ciudadano ciudadano);

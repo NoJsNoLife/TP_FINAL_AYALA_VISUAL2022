@@ -5,7 +5,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,7 +54,7 @@ public class PagesController {
 	 */
 	
 	@GetMapping("/")
-	public String getIndexPage(Model model) {
+	public String getIndexPage() {
 		Ciudadano c = ciudadanoSer.findByEstado(true);
 		Empleador e = empleadorSer.findByEstado(true);
 		if(c==null & e==null) {
@@ -65,7 +64,7 @@ public class PagesController {
 	}
 	
 	@GetMapping("/indexE")
-	public ModelAndView getEmpleadorPage(Model model) {
+	public ModelAndView getEmpleadorPage() {
 		Ciudadano c = ciudadanoSer.findByEstado(true);
 		if(c!=null) {
 			ModelAndView mav = new ModelAndView("redirect:/indexC");
@@ -85,7 +84,7 @@ public class PagesController {
 	}
 	
 	@GetMapping("/indexC")
-	public ModelAndView getCiudadanoPage(Model model) {
+	public ModelAndView getCiudadanoPage() {
 		Empleador e = empleadorSer.findByEstado(true);
 		if(e!=null) {
 			ModelAndView mav = new ModelAndView("redirect:/indexE");
@@ -101,6 +100,26 @@ public class PagesController {
 		ModelAndView mav = new ModelAndView("indexC");
 		LOGGER.info("Cargando ofertas de la pagina de inicio...");
 		mav.addObject("ofertas", ofertaSer.findByVacantesGreaterThan(0));
+		return mav;
+	}
+	
+	@GetMapping("/ciudadanos")
+	public ModelAndView getCiudadanos() {
+		Ciudadano c = ciudadanoSer.findByEstado(true);
+		if(c!=null) {
+			ModelAndView mav = new ModelAndView("redirect:/indexC");
+			LOGGER.info("Redirigido a Inicio...");
+			return mav;
+		}
+		Empleador e = empleadorSer.findByEstado(true);
+		if(e==null) {
+			ModelAndView mav = new ModelAndView("redirect:/");
+			LOGGER.info("Redirigido a Inicio...");
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView("listaCiudadanos");
+		LOGGER.info("Cargando ciudadanos disponibles...");
+		mav.addObject("ciudadanos", ciudadanoSer.findAll());
 		return mav;
 	}
 	

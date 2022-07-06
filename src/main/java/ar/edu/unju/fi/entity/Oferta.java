@@ -2,6 +2,7 @@ package ar.edu.unju.fi.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -67,9 +68,12 @@ public class Oferta implements Serializable{
 	@Column(name = "cuit")
 	private long cuit;
 	
+	@ManyToMany(mappedBy = "aceptados")
+	private List<Ciudadano> aceptados;
+	
 	//-----OFERTA A EMPLEADOR
 	@ManyToOne
-	@JoinColumn(name = "codigo")
+	@JoinColumn(name = "emp_codigo")
 	private Empleador empleador;
 	
 	//-----CIUDADANO A OFERTAS----- IMPLICA QUE UNA OFERTA PUEDE TENER VARIOS CIUDADANOS POSTULADOS
@@ -173,6 +177,12 @@ public class Oferta implements Serializable{
 	}
 	public void setEmpleador(Empleador empleador) {
 		this.empleador = empleador;
+	}
+	public List<Ciudadano> getAceptados() {
+		return aceptados;
+	}
+	public void setAceptados(List<Ciudadano> aceptados) {
+		this.aceptados = aceptados;
 	}
 	
 	
