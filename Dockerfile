@@ -1,12 +1,12 @@
-FROM maven:3.8.6 AS build
+FROM maven:3.9.5-eclipse-temurin-11 AS build
 WORKDIR /app
 COPY pom.xml /app
-RUN mvn dependency:resolve
+RUN mvn -e -B dependency:resolve
 COPY . /app
 RUN mvn clean
-RUN mvn package -DskipTests
+RUN mvn -e -B -DskipTests package
 
-FROM openjdk:17-jdk-alpine
+FROM openjdk:22-bullseye
 COPY --from=build /app/target/tpfinalhia2023-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 CMD [ "java", "-jar", "app.jar" ]
