@@ -1,7 +1,7 @@
 FROM maven:3.9.5-eclipse-temurin-11 AS build
 WORKDIR /app
 COPY pom.xml /app
-RUN mvn -e -B dependency:resolve
+RUN mvn dependency:resolve
 COPY . /app
 RUN mvn clean
 RUN mvn package -DskipTests
