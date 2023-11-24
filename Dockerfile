@@ -4,7 +4,7 @@ COPY pom.xml /app
 RUN mvn -e -B dependency:resolve
 COPY . /app
 RUN mvn clean
-RUN mvn -e -B package -DskipTests
+RUN mvn package -DskipTests
 
 FROM openjdk:22-bullseye
 COPY --from=build /app/target/tpfinalhia2023-0.0.1-SNAPSHOT.jar app.jar
